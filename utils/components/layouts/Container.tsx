@@ -1,16 +1,39 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
+
+interface IBottomTabBarProps {
+	navigate: (args: string) => void;
+}
+
+const BottomTabBar = (props: IBottomTabBarProps) => {
+	return (
+		<View>
+			<TouchableOpacity onPress={() => props.navigate("Feed")}>
+				<Text>Feed</Text>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => props.navigate("Search")}>
+				<Text>Search</Text>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => props.navigate("PostForm")}>
+				<Text>Form</Text>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => props.navigate("Account")}>
+				<Text>Account</Text>
+			</TouchableOpacity>
+		</View>
+	);
+};
 
 interface IContainerProps {
-    children: any;
+	children: any;
+	navigate: (args: string) => void;
 }
 
 export default (props: IContainerProps) => {
-    return (
-        <View>
-            <Text>Container</Text>
-
-            {props.children}
-        </View>
-    )
-}
+	return (
+		<View>
+			{props.children}
+			<BottomTabBar navigate={props.navigate} />
+		</View>
+	);
+};
