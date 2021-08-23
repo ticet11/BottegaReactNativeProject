@@ -1,10 +1,17 @@
 import { StyleSheet } from "react-native";
-import colors from "../colors"
+import colors from "../colors";
 
 export default StyleSheet.create({
 	container: {
-		backgroundColor: colors.highlight,
-		paddingTop: 15,
-		paddingBottom: 15,
+		position: "absolute",
+		bottom: 0,
+        zIndex: 1000,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        width: "100%",
+        height: 80,
+        backgroundColor: colors.dark,
+        paddingBottom: 15,
 	},
 });
