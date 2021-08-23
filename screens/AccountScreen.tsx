@@ -6,7 +6,7 @@ import Container from "../utils/components/layouts/Container";
 export default (props) => {
 	return (
 		<Container>
-			<Text>Post Form Screen</Text>
+			<Text>Accounts screen</Text>
 		</Container>
 	);
 };

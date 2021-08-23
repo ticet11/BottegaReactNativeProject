@@ -1,7 +1,7 @@
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import AccountsScreen from "../screens/AccountsScreen";
+import AccountScreen from "../screens/AccountScreen";
 
 import FeedScreen from "../screens/FeedScreen";
 import PostFormScreen from "../screens/PostFormScreen";
@@ -11,7 +11,7 @@ const AppStack = createStackNavigator(
 	{
 		Feed: FeedScreen,
 		Search: SearchScreen,
-    Account: AccountsScreen,
+    Account: AccountScreen,
     PostForm: PostFormScreen,
 	},
 	{

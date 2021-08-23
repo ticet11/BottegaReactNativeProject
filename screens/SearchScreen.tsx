@@ -1,10 +1,12 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+
+import Container from "../utils/components/layouts/Container";
 
 export default () => {
 	return (
-		<View>
+		<Container>
 			<Text>SearchScreen</Text>
-		</View>
+		</Container>
 	);
 };
