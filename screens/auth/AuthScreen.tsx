@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import { withOrientation } from "react-navigation";
-import colors from "../../styles/colors";
+
+import textInputStyles from "../../styles/forms/textInputStyles";
+const {textField, textFieldWrapper} = textInputStyles;
+import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 
 export default () => {
 	const [formToShow, setFormToShow] = useState("LOGIN");
@@ -41,22 +43,13 @@ export default () => {
 
 	return (
 		<View
-			style={{
-				marginTop: 50,
-				backgroundColor: colors.dark,
-				height: "100%",
-			}}
+			style={authScreenStyles.container}
 		>
 			<Text style={{ color: "white" }}>{textObj.headerText}</Text>
 
-			<View style={{ marginTop: 20, marginBottom: 20 }}>
+			<View style={textFieldWrapper}>
 				<TextInput
-					style={{
-						backgroundColor: "white",
-						borderRadius: 20,
-						height: 40,
-						paddingLeft: 20,
-					}}
+					style={textField}
 					placeholder={"Email"}
 					value={email}
 					onChangeText={(val) => setEmail(val)}
@@ -64,14 +57,9 @@ export default () => {
 					spellCheck={false}
 				></TextInput>
 			</View>
-            <View style={{ marginTop: 20, marginBottom: 20 }}>
+            <View style={textFieldWrapper}>
 				<TextInput
-					style={{
-						backgroundColor: "white",
-						borderRadius: 20,
-						height: 40,
-						paddingLeft: 20,
-					}}
+					style={textField}
 					placeholder={"Password"}
 					value={password}
 					onChangeText={(val) => setPassword(val)}
