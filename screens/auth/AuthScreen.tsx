@@ -6,6 +6,7 @@ import colors from "../../styles/colors";
 export default () => {
 	const [formToShow, setFormToShow] = useState("LOGIN");
 	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
 	let textObj = {
 		bodyText: "",
@@ -39,22 +40,47 @@ export default () => {
 	screenTypeText();
 
 	return (
-		<View style={{ marginTop: 50, backgroundColor: colors.dark, height: "100%" }}>
-			<Text  style={{ color: "white" }}>{textObj.headerText}</Text>
+		<View
+			style={{
+				marginTop: 50,
+				backgroundColor: colors.dark,
+				height: "100%",
+			}}
+		>
+			<Text style={{ color: "white" }}>{textObj.headerText}</Text>
 
 			<View style={{ marginTop: 20, marginBottom: 20 }}>
 				<TextInput
-                style={{backgroundColor: "white", borderRadius: 20, height: 40, paddingLeft: 20}}
-                placeholder={"Email"}
+					style={{
+						backgroundColor: "white",
+						borderRadius: 20,
+						height: 40,
+						paddingLeft: 20,
+					}}
+					placeholder={"Email"}
 					value={email}
 					onChangeText={(val) => setEmail(val)}
-                    autoCapitalize="none"
-                    spellCheck={false}
+					autoCapitalize="none"
+					spellCheck={false}
+				></TextInput>
+			</View>
+            <View style={{ marginTop: 20, marginBottom: 20 }}>
+				<TextInput
+					style={{
+						backgroundColor: "white",
+						borderRadius: 20,
+						height: 40,
+						paddingLeft: 20,
+					}}
+					placeholder={"Password"}
+					value={password}
+					onChangeText={(val) => setPassword(val)}
+                    secureTextEntry = {true}
 				></TextInput>
 			</View>
 
 			<TouchableOpacity onPress={handleAuthTypePress}>
-				<Text style={{color: "white"}}>{textObj.bodyText}</Text>
+				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
 		</View>
 	);
