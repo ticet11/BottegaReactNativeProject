@@ -7,7 +7,13 @@ import textInputStyles from "../../styles/forms/textInputStyles";
 const { textField, textFieldWrapper } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 
-export default () => {
+interface IAuthScreenProps {
+	navigation: {
+		navigate: (arg: string) => void;
+	};
+}
+
+export default (props: IAuthScreenProps) => {
 	const [formToShow, setFormToShow] = useState("LOGIN");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -48,12 +54,16 @@ export default () => {
 				password: password,
 			},
 		};
-		api
-			.post("memipedia_user_token", postData)
-			.then((response) =>
-				console.log("Response from handleSubmit", response.data)
-			)
-			.catch((error) => console.log("Error retrieving token.", error));
+		api.post("memipedia_user_token", postData)
+			.then((response) => {
+				console.log("Response from handleSubmit", response.data);
+				if (response.data.jwt) {
+					props.navigation.navigate("Feed");
+				} else {
+					alert("Try another e-mail or password?");
+				}
+			})
+			.catch((error) => alert("Try another e-mail or password?"));
 	};
 
 	screenTypeText();
@@ -85,7 +95,7 @@ export default () => {
 			<TouchableOpacity onPress={handleAuthTypePress}>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
-            <TouchableOpacity onPress={handleSubmit}>
+			<TouchableOpacity onPress={handleSubmit}>
 				<Text style={{ color: "white" }}>{textObj.headerText}</Text>
 			</TouchableOpacity>
 		</View>
