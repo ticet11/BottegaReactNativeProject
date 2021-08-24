@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import AccountScreen from "../screens/AccountScreen";
+import AuthScreen from '../screens/auth/AuthScreen';
 import FeedScreen from "../screens/FeedScreen";
 import PostFormScreen from "../screens/PostFormScreen";
 import SearchScreen from "../screens/SearchScreen";
@@ -28,13 +29,26 @@ const AppStack = createStackNavigator(
 	}
 );
 
+const AuthStack = createStackNavigator(
+	{
+		Auth: AuthScreen
+	},
+	{
+		initialRouteName: 'Auth',
+		defaultNavigationOptions: {
+			headerShown: false,
+		}
+	}
+)
+
 export default createAppContainer(
 	createSwitchNavigator(
 		{
 			App: AppStack,
+			Auth: AuthStack,
 		},
 		{
-			initialRouteName: "App",
+			initialRouteName: "Auth",
 		}
 	)
 );
