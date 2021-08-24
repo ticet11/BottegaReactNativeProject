@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { withOrientation } from "react-navigation";
+import colors from "../../styles/colors";
 
 export default () => {
 	const [formToShow, setFormToShow] = useState("LOGIN");
@@ -37,19 +39,22 @@ export default () => {
 	screenTypeText();
 
 	return (
-		<View>
-			<Text style={{ marginTop: 50 }}>{textObj.headerText}</Text>
+		<View style={{ marginTop: 50, backgroundColor: colors.dark, height: "100%" }}>
+			<Text  style={{ color: "white" }}>{textObj.headerText}</Text>
 
 			<View style={{ marginTop: 20, marginBottom: 20 }}>
 				<TextInput
+                style={{backgroundColor: "white", borderRadius: 20, height: 40, paddingLeft: 20}}
                 placeholder={"Email"}
 					value={email}
 					onChangeText={(val) => setEmail(val)}
+                    autoCapitalize="none"
+                    spellCheck={false}
 				></TextInput>
 			</View>
 
 			<TouchableOpacity onPress={handleAuthTypePress}>
-				<Text>{textObj.bodyText}</Text>
+				<Text style={{color: "white"}}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
 		</View>
 	);
