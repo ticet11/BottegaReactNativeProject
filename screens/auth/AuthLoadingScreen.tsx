@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
-import api from "../../utils/api";
+import api, { memeToken } from "../../utils/api";
 
 interface IAuthLoadingScreenProps {
 	navigation: {
@@ -19,7 +19,7 @@ export default (props: IAuthLoadingScreenProps) => {
 	}, []);
 
 	const checkLogin = async () => {
-		const token = await SecureStore.getItemAsync("memipedia_secure_token");
+		const token = await SecureStore.getItemAsync(memeToken);
 
 		if (token) {
 			api.get("logged_in", {

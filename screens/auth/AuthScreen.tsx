@@ -12,7 +12,7 @@ import textInputStyles from "../../styles/forms/textInputStyles";
 const { textField, textFieldWrapper } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 
-import api from "../../utils/api";
+import api, { memeToken } from "../../utils/api";
 import Button from "../../utils/components/helpers/Button";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 import { formatErrors } from "../../utils/textFormatters";
@@ -70,7 +70,7 @@ export default (props: IAuthScreenProps) => {
 				console.log("Response from handleSubmit", response.data);
 				if (response.data.jwt) {
 					await SecureStore.setItemAsync(
-						"memipedia_secure_token",
+						memeToken,
 						response.data.jwt
 					);
 					props.navigation.navigate("Feed");
