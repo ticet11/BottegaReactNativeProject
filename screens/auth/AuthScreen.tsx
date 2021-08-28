@@ -6,6 +6,7 @@ import api from "../../utils/api";
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textField, textFieldWrapper } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
+import Button from "../../utils/components/helpers/Button";
 
 interface IAuthScreenProps {
 	navigation: {
@@ -17,6 +18,7 @@ export default (props: IAuthScreenProps) => {
 	const [formToShow, setFormToShow] = useState("LOGIN");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	let textObj = {
 		bodyText: "",
@@ -48,6 +50,7 @@ export default (props: IAuthScreenProps) => {
 	};
 
 	const handleSubmit = () => {
+		setIsSubmitting(true);
 		const postData = {
 			auth: {
 				email: email,
@@ -62,8 +65,12 @@ export default (props: IAuthScreenProps) => {
 				} else {
 					alert("Try another e-mail or password?");
 				}
+				setIsSubmitting(false);
 			})
-			.catch((error) => alert("Try another e-mail or password?"));
+			.catch((error) => {
+				alert("Try another e-mail or password?");
+				setIsSubmitting(false);
+			});
 	};
 
 	screenTypeText();
@@ -92,11 +99,17 @@ export default (props: IAuthScreenProps) => {
 				></TextInput>
 			</View>
 
+			{isSubmitting ? (
+				<Button
+					text={"Submitting..."}
+					onPress={handleSubmit}
+					disabled={true}
+				/>
+			) : (
+				<Button text={textObj.headerText} onPress={handleSubmit} />
+			)}
 			<TouchableOpacity onPress={handleAuthTypePress}>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
-			</TouchableOpacity>
-			<TouchableOpacity onPress={handleSubmit}>
-				<Text style={{ color: "white" }}>{textObj.headerText}</Text>
 			</TouchableOpacity>
 		</View>
 	);
