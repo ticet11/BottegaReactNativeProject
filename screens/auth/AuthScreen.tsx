@@ -6,16 +6,16 @@ import {
 	TextInput,
 	ScrollView,
 } from "react-native";
-
-import api from "../../utils/api";
+import * as SecureStore from "expo-secure-store";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textField, textFieldWrapper } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
-import Button from "../../utils/components/helpers/Button";
-import { formatErrors } from "../../utils/textFormatters";
 
+import api from "../../utils/api";
+import Button from "../../utils/components/helpers/Button";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
+import { formatErrors } from "../../utils/textFormatters";
 interface IAuthScreenProps {
 	navigation: {
 		navigate: (arg: string) => void;
@@ -66,9 +66,13 @@ export default (props: IAuthScreenProps) => {
 			},
 		};
 		api.post("memipedia_user_token", postData)
-			.then((response) => {
+			.then(async (response) => {
 				console.log("Response from handleSubmit", response.data);
 				if (response.data.jwt) {
+					await SecureStore.setItemAsync(
+						"memipedia_secure_token",
+						response.data.jwt
+					);
 					props.navigation.navigate("Feed");
 				} else {
 					alert("Try another e-mail or password?");
