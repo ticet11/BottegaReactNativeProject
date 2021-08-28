@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import AccountScreen from "../screens/AccountScreen";
+import AuthLoadingScreen from '../screens/auth/AuthLoadingScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
 import FeedScreen from "../screens/FeedScreen";
 import PostFormScreen from "../screens/PostFormScreen";
@@ -46,9 +47,10 @@ export default createAppContainer(
 		{
 			App: AppStack,
 			Auth: AuthStack,
+			AuthLoading: AuthLoadingScreen,
 		},
 		{
-			initialRouteName: "Auth",
+			initialRouteName: "AuthLoading",
 		}
 	)
 );

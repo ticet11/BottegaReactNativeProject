@@ -6,15 +6,15 @@ interface ICurrentUserProviderProps {
 }
 
 export default (props: ICurrentUserProviderProps) => {
-    const [currentUser, setCurrentUser] = useState({
-        id: 123,
-        email: "bradley@test.com",
-    });
+	const [currentUser, setCurrentUser] = useState({
+		id: 123,
+		email: "bradley@test.com",
+	});
 
-    const stateValues = {
-        currentUser,
-        setCurrentUser,
-    }
+	const stateValues = {
+		currentUser,
+		setCurrentUser,
+	};
 
 	return (
 		<CurrentUserContext.Provider value={stateValues}>
