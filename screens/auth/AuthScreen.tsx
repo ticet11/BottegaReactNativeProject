@@ -16,6 +16,7 @@ import api, { memeToken } from "../../utils/api";
 import Button from "../../utils/components/helpers/Button";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 import { formatErrors } from "../../utils/textFormatters";
+
 interface IAuthScreenProps {
 	navigation: {
 		navigate: (arg: string) => void;
@@ -27,7 +28,7 @@ export default (props: IAuthScreenProps) => {
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const { currentUser } = useContext(CurrentUserContext);
+	const { currentUser, getUser } = useContext(CurrentUserContext);
 
 	let textObj = {
 		bodyText: "",
@@ -65,14 +66,14 @@ export default (props: IAuthScreenProps) => {
 				password: password,
 			},
 		};
-		api.post("memipedia_user_token", postData)
+		api.post(memeToken, postData)
 			.then(async (response) => {
-				console.log("Response from handleSubmit", response.data);
 				if (response.data.jwt) {
 					await SecureStore.setItemAsync(
 						memeToken,
 						response.data.jwt
 					);
+					getUser();
 					props.navigation.navigate("Feed");
 				} else {
 					alert("Try another e-mail or password?");
@@ -80,8 +81,8 @@ export default (props: IAuthScreenProps) => {
 				setIsSubmitting(false);
 			})
 			.catch((error) => {
-				alert("Try another e-mail or password?");
 				setIsSubmitting(false);
+				alert("Try another e-mail or password?");
 			});
 	};
 
@@ -96,7 +97,7 @@ export default (props: IAuthScreenProps) => {
 			.then((response) => {
 				console.log("Res for creating users", response.data);
 				if (response.data.memipedia_user) {
-					props.navigation.navigate("Feed");
+					handleLogin();
 				} else {
 					alert(
 						"Error creating user:\n\n" +
