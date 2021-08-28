@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
 	View,
 	Text,
@@ -15,6 +15,7 @@ import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 import Button from "../../utils/components/helpers/Button";
 import { formatErrors } from "../../utils/textFormatters";
 
+import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 interface IAuthScreenProps {
 	navigation: {
 		navigate: (arg: string) => void;
@@ -25,6 +26,8 @@ export default (props: IAuthScreenProps) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const { currentUser } = useContext(CurrentUserContext);
 
 	let textObj = {
 		bodyText: "",
@@ -149,6 +152,9 @@ export default (props: IAuthScreenProps) => {
 			>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
+			<View>
+				<Text>{JSON.stringify(currentUser)}</Text>
+			</View>
 		</ScrollView>
 	);
 };
