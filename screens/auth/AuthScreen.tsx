@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	TextInput,
+	ScrollView,
+} from "react-native";
 
 import api from "../../utils/api";
 
@@ -19,12 +25,12 @@ export default (props: IAuthScreenProps) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	
+
 	let textObj = {
 		bodyText: "",
 		buttonText: "",
 	};
-	
+
 	const screenTypeText = () => {
 		if (formToShow === "LOGIN") {
 			textObj = {
@@ -40,7 +46,7 @@ export default (props: IAuthScreenProps) => {
 			return textObj;
 		}
 	};
-	
+
 	const handleAuthTypePress = () => {
 		if (formToShow === "LOGIN") {
 			setFormToShow("REGISTER");
@@ -48,7 +54,7 @@ export default (props: IAuthScreenProps) => {
 			setFormToShow("LOGIN");
 		}
 	};
-	
+
 	const handleLogin = () => {
 		const postData = {
 			auth: {
@@ -57,21 +63,21 @@ export default (props: IAuthScreenProps) => {
 			},
 		};
 		api.post("memipedia_user_token", postData)
-		.then((response) => {
-			console.log("Response from handleSubmit", response.data);
-			if (response.data.jwt) {
-				props.navigation.navigate("Feed");
-			} else {
+			.then((response) => {
+				console.log("Response from handleSubmit", response.data);
+				if (response.data.jwt) {
+					props.navigation.navigate("Feed");
+				} else {
+					alert("Try another e-mail or password?");
+				}
+				setIsSubmitting(false);
+			})
+			.catch((error) => {
 				alert("Try another e-mail or password?");
-			}
-			setIsSubmitting(false);
-		})
-		.catch((error) => {
-			alert("Try another e-mail or password?");
-			setIsSubmitting(false);
-		});
+				setIsSubmitting(false);
+			});
 	};
-	
+
 	const handleRegistration = () => {
 		const params = {
 			user: {
@@ -80,29 +86,32 @@ export default (props: IAuthScreenProps) => {
 			},
 		};
 		api.post("memipedia_users", params)
-		.then((response) => {
-			console.log("Res for creating users", response.data);
-			if (response.data.memipedia_user) {
-				props.navigation.navigate("Feed");
-			} else {
-				alert("Error creating user:\n\n" + formatErrors(response.data.errors));
-			}
-			setIsSubmitting(false);
-		})
-		.catch((error) => {
-			setIsSubmitting(false);
-			alert("Error creating user: " + error);
-		});
+			.then((response) => {
+				console.log("Res for creating users", response.data);
+				if (response.data.memipedia_user) {
+					props.navigation.navigate("Feed");
+				} else {
+					alert(
+						"Error creating user:\n\n" +
+							formatErrors(response.data.errors)
+					);
+				}
+				setIsSubmitting(false);
+			})
+			.catch((error) => {
+				setIsSubmitting(false);
+				alert("Error creating user: " + error);
+			});
 	};
-	
+
 	const handleSubmit = () => {
 		setIsSubmitting(true);
 		if (formToShow === "LOGIN") handleLogin();
 		else handleRegistration();
 	};
-			
+
 	screenTypeText();
-	
+
 	return (
 		<ScrollView style={authScreenStyles.container}>
 			<View style={textFieldWrapper}>
