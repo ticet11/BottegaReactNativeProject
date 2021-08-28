@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
 
 import api from "../../utils/api";
 
@@ -104,7 +104,7 @@ export default (props: IAuthScreenProps) => {
 	screenTypeText();
 	
 	return (
-		<View style={authScreenStyles.container}>
+		<ScrollView style={authScreenStyles.container}>
 			<View style={textFieldWrapper}>
 				<TextInput
 					style={textField}
@@ -140,6 +140,6 @@ export default (props: IAuthScreenProps) => {
 			>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
-		</View>
+		</ScrollView>
 	);
 };
