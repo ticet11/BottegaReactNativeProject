@@ -30,7 +30,9 @@
     "@babel/core": "^7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
-    "typescript": "~4.0.0"
+    "@typescript-eslint/parser": "^4.29.3",
+    "eslint-plugin-deprecation": "^1.2.1",
+    "typescript": "^4.0.8"
   },
   "private": true
 }
