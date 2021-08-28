@@ -22,20 +22,20 @@ export default (props: IAuthScreenProps) => {
 
 	let textObj = {
 		bodyText: "",
-		headerText: "",
+		buttonText: "",
 	};
 
 	const screenTypeText = () => {
 		if (formToShow === "LOGIN") {
 			textObj = {
 				bodyText: "Need an account? Register.",
-				headerText: "Login",
+				buttonText: "Login",
 			};
 			return textObj;
 		} else if (formToShow === "REGISTER") {
 			textObj = {
 				bodyText: "Already have an account? Login.",
-				headerText: "Register",
+				buttonText: "Register",
 			};
 			return textObj;
 		}
@@ -77,7 +77,6 @@ export default (props: IAuthScreenProps) => {
 
 	return (
 		<View style={authScreenStyles.container}>
-			<Text style={{ color: "white" }}>{textObj.headerText}</Text>
 
 			<View style={textFieldWrapper}>
 				<TextInput
@@ -106,9 +105,9 @@ export default (props: IAuthScreenProps) => {
 					disabled={true}
 				/>
 			) : (
-				<Button text={textObj.headerText} onPress={handleSubmit} />
+				<Button text={textObj.buttonText} onPress={handleSubmit} />
 			)}
-			<TouchableOpacity onPress={handleAuthTypePress}>
+			<TouchableOpacity style={{marginTop: 10, marginBottom: 20,}} onPress={handleAuthTypePress}>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
 		</View>
