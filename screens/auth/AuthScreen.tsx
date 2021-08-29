@@ -28,7 +28,7 @@ export default (props: IAuthScreenProps) => {
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const { currentUser, getUser } = useContext(CurrentUserContext);
+	const { getUser } = useContext(CurrentUserContext);
 
 	const screenTypeText = () => {
 		if (formToShow === "LOGIN") {
@@ -45,7 +45,7 @@ export default (props: IAuthScreenProps) => {
 			return textObj;
 		}
 	};
-	
+
 	const handleAuthTypePress = () => {
 		if (formToShow === "LOGIN") {
 			setFormToShow("REGISTER");
@@ -53,7 +53,7 @@ export default (props: IAuthScreenProps) => {
 			setFormToShow("LOGIN");
 		}
 	};
-	
+
 	const handleLogin = async () => {
 		const params = {
 			auth: {
@@ -62,65 +62,66 @@ export default (props: IAuthScreenProps) => {
 			},
 		};
 		await api.post(userToken, params)
-		.then(async (response) => {
-			if (response.data.jwt) {
-				await SecureStore.setItemAsync(
-					secureToken,
-					response.data.jwt
+			.then(async (response) => {
+				if (response.data.jwt) {
+					await SecureStore.setItemAsync(
+						secureToken,
+						response.data.jwt
 					);
 					getUser();
+					setIsSubmitting(false);
 					props.navigation.navigate("Feed");
 				} else {
+					setIsSubmitting(false);
 					alert("Try another e-mail or password?");
 				}
-				setIsSubmitting(false);
 			})
 			.catch((error) => {
 				setIsSubmitting(false);
 				alert("Try another e-mail or password?");
 			});
-		};
-		
-		const handleRegistration = () => {
-			const params = {
+	};
+
+	const handleRegistration = () => {
+		const params = {
 			user: {
 				email: email,
 				password: password,
 			},
 		};
 		api.post("memipedia_users", params)
-		.then((response) => {
-			console.log("Res for creating users", response.data);
-			if (response.data.memipedia_user) {
-				handleLogin();
-			} else {
-				alert(
-					"Error creating user:\n\n" +
-					formatErrors(response.data.errors)
+			.then((response) => {
+				console.log("Res for creating users", response.data);
+				if (response.data.memipedia_user) {
+					handleLogin();
+				} else {
+					setIsSubmitting(false);
+					alert(
+						"Error creating user:\n\n" +
+						formatErrors(response.data.errors)
 					);
 				}
-				setIsSubmitting(false);
 			})
 			.catch((error) => {
 				setIsSubmitting(false);
 				alert("Error creating user: " + error);
 			});
-		};
-		
-		const handleSubmit = () => {
-			setIsSubmitting(true);
-			if (formToShow === "LOGIN") handleLogin();
-			else handleRegistration();
-		};
-		
-		let textObj = {
-			bodyText: "",
-			buttonText: "",
-		};
-		screenTypeText();
-		
-		return (
-			<ScrollView style={authScreenStyles.container}>
+	};
+
+	const handleSubmit = () => {
+		setIsSubmitting(true);
+		if (formToShow === "LOGIN") handleLogin();
+		else handleRegistration();
+	};
+
+	let textObj = {
+		bodyText: "",
+		buttonText: "",
+	};
+	screenTypeText();
+
+	return (
+		<ScrollView style={authScreenStyles.container}>
 			<View style={textFieldWrapper}>
 				<TextInput
 					style={textField}
@@ -138,6 +139,7 @@ export default (props: IAuthScreenProps) => {
 					value={password}
 					onChangeText={(val) => setPassword(val)}
 					secureTextEntry={true}
+					onSubmitEditing={handleSubmit}
 				></TextInput>
 			</View>
 
@@ -156,9 +158,6 @@ export default (props: IAuthScreenProps) => {
 			>
 				<Text style={{ color: "white" }}>{textObj.bodyText}</Text>
 			</TouchableOpacity>
-			<View>
-				<Text>{JSON.stringify(currentUser)}</Text>
-			</View>
 		</ScrollView>
 	);
 };
