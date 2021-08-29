@@ -4,7 +4,10 @@ import colors from "../colors";
 
 export default StyleSheet.create({
     container: {
-        width: "100%",
+        height: "100%",
         backgroundColor: colors.primary,
-    }
+    },
+    containerWithBottomNavBar: {
+        marginBottom: 80,
+    },
 })

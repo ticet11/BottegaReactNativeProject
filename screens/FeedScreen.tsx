@@ -6,6 +6,7 @@ import Container from "../utils/components/layouts/Container";
 import api, { secureToken } from "../utils/api";
 import PostFormScreen from "./PostFormScreen";
 import PostItem from "../utils/components/posts/PostItem";
+import baseStyles from "../styles/common/baseStyles";
 
 interface IFeedScreenProps {
 	navigation: {
@@ -15,6 +16,7 @@ interface IFeedScreenProps {
 export default (props: IFeedScreenProps) => {
 	const [posts, setPosts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const {containerWithBottomNavBar} = baseStyles;
 
 	useEffect(() => {
 		const ac = new AbortController();
@@ -47,7 +49,7 @@ export default (props: IFeedScreenProps) => {
 				{isLoading ? (
 					<ActivityIndicator />
 				) : (
-					<ScrollView>
+					<ScrollView style={containerWithBottomNavBar}>
 						{posts.map((post) => (
 							<PostItem key={post.id} post={post} />
 						))}
