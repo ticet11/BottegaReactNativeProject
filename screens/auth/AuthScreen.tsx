@@ -9,13 +9,13 @@ import {
 import * as SecureStore from "expo-secure-store";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
-const { textField, textFieldWrapper } = textInputStyles;
+const { textFieldWrapper, textField } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
-
-import api, { memeToken } from "../../utils/api";
+import api, { userToken, secureToken } from "../../utils/api";
 import Button from "../../utils/components/helpers/Button";
-import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 import { formatErrors } from "../../utils/textFormatters";
+
+import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 
 interface IAuthScreenProps {
 	navigation: {
@@ -29,11 +29,6 @@ export default (props: IAuthScreenProps) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const { currentUser, getUser } = useContext(CurrentUserContext);
-
-	let textObj = {
-		bodyText: "",
-		buttonText: "",
-	};
 
 	const screenTypeText = () => {
 		if (formToShow === "LOGIN") {
@@ -50,7 +45,7 @@ export default (props: IAuthScreenProps) => {
 			return textObj;
 		}
 	};
-
+	
 	const handleAuthTypePress = () => {
 		if (formToShow === "LOGIN") {
 			setFormToShow("REGISTER");
@@ -58,20 +53,20 @@ export default (props: IAuthScreenProps) => {
 			setFormToShow("LOGIN");
 		}
 	};
-
-	const handleLogin = () => {
-		const postData = {
+	
+	const handleLogin = async () => {
+		const params = {
 			auth: {
 				email: email,
 				password: password,
 			},
 		};
-		api.post(memeToken, postData)
-			.then(async (response) => {
-				if (response.data.jwt) {
-					await SecureStore.setItemAsync(
-						memeToken,
-						response.data.jwt
+		await api.post(userToken, params)
+		.then(async (response) => {
+			if (response.data.jwt) {
+				await SecureStore.setItemAsync(
+					secureToken,
+					response.data.jwt
 					);
 					getUser();
 					props.navigation.navigate("Feed");
@@ -84,24 +79,24 @@ export default (props: IAuthScreenProps) => {
 				setIsSubmitting(false);
 				alert("Try another e-mail or password?");
 			});
-	};
-
-	const handleRegistration = () => {
-		const params = {
+		};
+		
+		const handleRegistration = () => {
+			const params = {
 			user: {
 				email: email,
 				password: password,
 			},
 		};
 		api.post("memipedia_users", params)
-			.then((response) => {
-				console.log("Res for creating users", response.data);
-				if (response.data.memipedia_user) {
-					handleLogin();
-				} else {
-					alert(
-						"Error creating user:\n\n" +
-							formatErrors(response.data.errors)
+		.then((response) => {
+			console.log("Res for creating users", response.data);
+			if (response.data.memipedia_user) {
+				handleLogin();
+			} else {
+				alert(
+					"Error creating user:\n\n" +
+					formatErrors(response.data.errors)
 					);
 				}
 				setIsSubmitting(false);
@@ -110,18 +105,22 @@ export default (props: IAuthScreenProps) => {
 				setIsSubmitting(false);
 				alert("Error creating user: " + error);
 			});
-	};
-
-	const handleSubmit = () => {
-		setIsSubmitting(true);
-		if (formToShow === "LOGIN") handleLogin();
-		else handleRegistration();
-	};
-
-	screenTypeText();
-
-	return (
-		<ScrollView style={authScreenStyles.container}>
+		};
+		
+		const handleSubmit = () => {
+			setIsSubmitting(true);
+			if (formToShow === "LOGIN") handleLogin();
+			else handleRegistration();
+		};
+		
+		let textObj = {
+			bodyText: "",
+			buttonText: "",
+		};
+		screenTypeText();
+		
+		return (
+			<ScrollView style={authScreenStyles.container}>
 			<View style={textFieldWrapper}>
 				<TextInput
 					style={textField}

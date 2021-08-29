@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
-import api, { memeToken } from "../../utils/api";
+import api, { secureToken } from "../../utils/api";
 
 interface IAuthLoadingScreenProps {
 	navigation: {
@@ -15,11 +15,13 @@ export default (props: IAuthLoadingScreenProps) => {
 	const { setCurrentUser } = useContext(CurrentUserContext);
 
 	useEffect(() => {
+		const ac = new AbortController();
 		checkLogin();
+		return  ()=> ac.abort();
 	}, []);
 
 	const checkLogin = async () => {
-		const token = await SecureStore.getItemAsync(memeToken);
+		const token = await SecureStore.getItemAsync(secureToken);
 
 		if (token) {
 			api.get("logged_in", {

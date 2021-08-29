@@ -4,7 +4,7 @@ import * as SecureStore from "expo-secure-store";
 
 import Button from "../utils/components/helpers/Button";
 import CurrentUserContext from "../utils/contexts/CurrentUserContext";
-import { memeToken } from "../utils/api";
+import { secureToken } from "../utils/api";
 
 interface IAccountScreenProps{
 	navigation: {
@@ -15,7 +15,7 @@ export default (props:IAccountScreenProps) => {
 	const {setCurrentUser} = useContext(CurrentUserContext);
 
 	const handleSignOut = async () => {
-		await SecureStore.deleteItemAsync(memeToken);
+		await SecureStore.deleteItemAsync(secureToken);
 		setCurrentUser(null);
 		props.navigation.navigate("Auth")
 	}
