@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ActivityIndicator } from "react-native";
-import * as SecureStore from 'expo-secure-store';
+import { Text, View, ActivityIndicator, ScrollView } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 import Container from "../utils/components/layouts/Container";
 import api, { secureToken } from "../utils/api";
+import PostFormScreen from "./PostFormScreen";
+import PostItem from "../utils/components/posts/PostItem";
 
 interface IFeedScreenProps {
 	navigation: {
@@ -27,20 +29,30 @@ export default (props: IFeedScreenProps) => {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
-		}).then(response => {
-			console.log('res from posts', response.data)
-			setPosts(response.data.memipedia_posts);
-			setIsLoading(false);
-		}).catch(error => {
-			console.log(error + ": Uh oh post get problems")
-			setIsLoading(false);
-		});
+		})
+			.then((response) => {
+				console.log("res from posts", response.data);
+				setPosts(response.data.memipedia_posts);
+				setIsLoading(false);
+			})
+			.catch((error) => {
+				console.log(error + ": Uh oh post get problems");
+				setIsLoading(false);
+			});
 	};
 
 	return (
 		<Container navigate={props.navigation.navigate}>
 			<View style={{ marginTop: 20 }}>
-				{isLoading ? <ActivityIndicator /> : <Text>{JSON.stringify(posts)}</Text>}
+				{isLoading ? (
+					<ActivityIndicator />
+				) : (
+					<ScrollView>
+						{posts.map((post) => (
+							<PostItem key={post.id} post={post} />
+						))}
+					</ScrollView>
+				)}
 			</View>
 		</Container>
 	);
