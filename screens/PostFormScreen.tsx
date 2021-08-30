@@ -8,6 +8,23 @@ export default () => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
+
+	const buildForm = () => {
+		let formData = new FormData();
+
+		formData.append("post[name]", name);
+		formData.append("post[content]", content);
+
+		const uriParts = postImage.split(".");
+		const fileType = uriParts[uriParts.length - 1];
+
+		formData.append("post[post_image]", {
+			uri: postImage,
+			name: `photo.${fileType}`,
+			type: `image/${fileType}`,
+		} as any);
+	};
+
 	return (
 		<View>
 			<TextInput
@@ -30,7 +47,7 @@ export default () => {
 				onPress={() => console.log("Very good submit. I like it.")}
 			></Button>
 
-			<Text>{postImage? postImage: null}</Text>
+			<Text>{postImage ? postImage : null}</Text>
 		</View>
 	);
 };
