@@ -23,6 +23,8 @@ export default () => {
 			name: `photo.${fileType}`,
 			type: `image/${fileType}`,
 		} as any);
+
+		return formData;
 	};
 
 	return (
