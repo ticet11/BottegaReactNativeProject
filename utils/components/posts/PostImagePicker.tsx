@@ -1,60 +1,42 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import Constants from "expo-constants";
-import * as Permissions from "expo-permissions";
-import { useEffect, useState } from "react";
-import { Button, View, Image } from "react-native";
+import { View, Image, Platform } from "react-native";
+import Button from "../helpers/Button";
 
-interface IPostImagePickerProps {
-  setPostImage: (arg: any) => void;
-}
-export default (props: IPostImagePickerProps) => {
-	const [image, setImage] = useState(null);
+export default function ImagePickerExample() {
+  const [image, setImage] = useState(null);
 
-	useEffect(() => {
-		getPermissionAsync();
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.getCameraRollPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
 
-		return () => {};
-	}, []);
+  const pickImage = async () => {
+    let result: any = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-	const getPermissionAsync = async () => {
-		if (Constants.platform.ios) {
-			const { status } = await Permissions.askAsync(
-				Permissions.CAMERA_ROLL
-			);
-			if (status !== "granted") {
-				alert(
-					"Sorry, we need camera roll permissions to make this work!"
-				);
-			}
-		}
-	};
+    console.log(result);
 
-	const pickImage = async () => {
-		try {
-			let result: any = await ImagePicker.launchImageLibraryAsync({
-				mediaTypes: ImagePicker.MediaTypeOptions.All,
-				allowsEditing: true,
-				aspect: [4, 3],
-				quality: 1,
-			});
-			if (!result.cancelled) {
-				// @ts-ignore
-				setImage(result.uri);
-        props.setPostImage(result.uri)
-			}
-
-			console.log(result);
-		} catch (E) {
-			console.log(E);
-		}
-	};
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 	return (
 		<View
 			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
 		>
 			<Button
-				title="Pick an image from camera roll"
+				text="Pick an image from camera roll"
 				onPress={pickImage}
 			/>
 			{image && (
