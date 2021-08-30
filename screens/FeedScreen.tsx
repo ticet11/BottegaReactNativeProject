@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ActivityIndicator, ScrollView } from "react-native";
+import { View, ActivityIndicator, ScrollView } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import Container from "../utils/components/layouts/Container";
 import api, { secureToken } from "../utils/api";
-import PostFormScreen from "./PostFormScreen";
 import PostItem from "../utils/components/posts/PostItem";
 import baseStyles from "../styles/common/baseStyles";
 
@@ -16,7 +15,7 @@ interface IFeedScreenProps {
 export default (props: IFeedScreenProps) => {
 	const [posts, setPosts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const {containerWithBottomNavBar} = baseStyles;
+	const { containerWithBottomNavBar } = baseStyles;
 
 	useEffect(() => {
 		const ac = new AbortController();

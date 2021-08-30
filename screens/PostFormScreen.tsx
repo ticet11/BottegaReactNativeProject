@@ -1,18 +1,15 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
-import Container from "../utils/components/layouts/Container";
+import PostImagePicker from "../utils/components/posts/PostImagePicker";
 
-interface IPostFormScreenProps {
-	navigation: {
-		navigate: (arg: string) => void;
-	}
-}
-
-export default (props: IPostFormScreenProps) => {
+export default () => {
 	return (
-		<Container navigate={props.navigation.navigate}>
+		<View>
 			<Text>Post Form Screen</Text>
-		</Container>
+			<View style={{ marginTop: 40, height: 100 }}>
+				<PostImagePicker></PostImagePicker>
+			</View>
+		</View>
 	);
 };
