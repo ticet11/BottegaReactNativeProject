@@ -10,6 +10,7 @@ export default () => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const buildForm = () => {
 		let formData = new FormData();
@@ -31,6 +32,7 @@ export default () => {
 
 	const handleSubmit = async () => {
 		const token = await SecureStore.getItemAsync(secureToken);
+		setIsSubmitting(true);
 
 		api.post(urlPosts, buildForm(), {
 			headers: {
@@ -41,9 +43,11 @@ export default () => {
 		})
 			.then((response) => {
 				console.log("res from new post", response.data);
+				setIsSubmitting(false);
 			})
 			.catch((error) => {
 				console.log(error + ": Uh oh post post problems");
+				setIsSubmitting(false);
 			});
 	};
 
@@ -54,7 +58,7 @@ export default () => {
 				value={name}
 				onChangeText={(val) => setName(val)}
 			></TextInput>
-			
+
 			<TextInput
 				placeholder="Description"
 				value={content}
@@ -62,17 +66,13 @@ export default () => {
 				style={{ borderWidth: 2, borderColor: "black" }}
 				multiline
 			></TextInput>
-			
+
 			<View style={{ marginTop: 40, height: 100 }}>
 				<PostImagePicker setPostImage={setPostImage}></PostImagePicker>
 			</View>
-			
-			<Button
-				text="Submit"
-				onPress={handleSubmit}
-			></Button>
 
-			<Text>{postImage ? postImage : null}</Text>
+			{isSubmitting ? (<Button text="Submitting..." disabled></Button>) :
+			(<Button text="Submit" onPress={handleSubmit}></Button>)}
 		</View>
 	);
 };
