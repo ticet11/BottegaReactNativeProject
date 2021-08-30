@@ -3,7 +3,7 @@ import { View, ActivityIndicator, ScrollView } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import Container from "../utils/components/layouts/Container";
-import api, { secureToken } from "../utils/api";
+import api, { secureToken, urlPosts } from "../utils/api";
 import PostItem from "../utils/components/posts/PostItem";
 import baseStyles from "../styles/common/baseStyles";
 
@@ -26,7 +26,7 @@ export default (props: IFeedScreenProps) => {
 	const getPosts = async () => {
 		const token = await SecureStore.getItemAsync(secureToken);
 
-		api.get("memipedia_posts", {
+		api.get(urlPosts, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

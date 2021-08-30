@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
-import api, { secureToken } from "../../utils/api";
+import api, { secureToken, urlLoggedIn } from "../../utils/api";
 
 interface IAuthLoadingScreenProps {
 	navigation: {
@@ -24,7 +24,7 @@ export default (props: IAuthLoadingScreenProps) => {
 		const token = await SecureStore.getItemAsync(secureToken);
 
 		if (token) {
-			api.get("logged_in", {
+			api.get(urlLoggedIn, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

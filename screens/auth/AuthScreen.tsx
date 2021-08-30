@@ -11,7 +11,7 @@ import * as SecureStore from "expo-secure-store";
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textFieldWrapper, textField } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
-import api, { userToken, secureToken } from "../../utils/api";
+import api, { userToken, secureToken, urlUsers } from "../../utils/api";
 import Button from "../../utils/components/helpers/Button";
 import { formatErrors } from "../../utils/textFormatters";
 
@@ -89,7 +89,7 @@ export default (props: IAuthScreenProps) => {
 				password: password,
 			},
 		};
-		api.post("memipedia_users", params)
+		api.post(urlUsers, params)
 			.then((response) => {
 				console.log("Res for creating users", response.data);
 				if (response.data.memipedia_user) {

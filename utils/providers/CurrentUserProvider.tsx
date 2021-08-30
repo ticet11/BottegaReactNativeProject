@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as SecureStore from "expo-secure-store";
-import api, { secureToken } from "../api";
+import api, { secureToken, urlLoggedIn } from "../api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 interface ICurrentUserProviderProps {
@@ -16,7 +16,7 @@ export default (props: ICurrentUserProviderProps) => {
 	const getUser = async () => {
 		const token = await SecureStore.getItemAsync(secureToken);
 
-		api.get("logged_in", {
+		api.get(urlLoggedIn, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
