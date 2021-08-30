@@ -7,6 +7,7 @@ import PostImagePicker from "../utils/components/posts/PostImagePicker";
 export default () => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
+	const [postImage, setPostImage] = useState(null);
 	return (
 		<View>
 			<TextInput
@@ -22,12 +23,14 @@ export default () => {
 				style={{ borderWidth: 2, borderColor: "black" }}
 			></TextInput>
 			<View style={{ marginTop: 40, height: 100 }}>
-				<PostImagePicker></PostImagePicker>
+				<PostImagePicker setPostImage={setPostImage}></PostImagePicker>
 			</View>
 			<Button
 				text="Submit"
 				onPress={() => console.log("Very good submit. I like it.")}
 			></Button>
+
+			<Text>{postImage? postImage: null}</Text>
 		</View>
 	);
 };
