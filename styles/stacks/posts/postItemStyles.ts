@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export default StyleSheet.create({
+    contentText: {
+        color: 'white',
+        fontSize: RFValue(14, 680)
+    },
     contentWrapper: {
         paddingLeft: 15,
         paddingRight: 15,
