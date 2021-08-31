@@ -6,6 +6,7 @@ import AccountScreen from "../screens/AccountScreen";
 import AuthLoadingScreen from '../screens/auth/AuthLoadingScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
 import FeedScreen from "../screens/FeedScreen";
+import PostDetailScreen from '../screens/PostDetailScreen';
 import PostFormScreen from "../screens/PostFormScreen";
 import SearchScreen from "../screens/SearchScreen";
 import colors from "../styles/colors";
@@ -17,6 +18,12 @@ const AppStack = createStackNavigator(
 		Search: SearchScreen,
 		Account: AccountScreen,
 		PostForm: PostFormScreen,
+		PostDetail: {
+			screen: PostDetailScreen,
+			navigationOptions: {
+				headerLeft: null,
+			}
+		}
 	},
 	{
 		initialRouteName: "Feed",
