@@ -6,7 +6,12 @@ import * as SecureStore from "expo-secure-store";
 import PostImagePicker from "../utils/components/posts/PostImagePicker";
 import api, { secureToken, urlPosts } from "../utils/api";
 
-export default () => {
+interface IPostFormScreenProps {
+	navigation: {
+		navigate: (screenName: string, data: any) => void;
+	}
+}
+export default (props: IPostFormScreenProps) => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
@@ -44,6 +49,11 @@ export default () => {
 			.then((response) => {
 				console.log("res from new post", response.data);
 				setIsSubmitting(false);
+				if (response.data.memipedia_post) {
+					props.navigation.navigate("PostDetail", {post: response.data.memipedia_post})
+				} else {
+					alert("Post Creation Error")
+				}
 			})
 			.catch((error) => {
 				console.log(error + ": Uh oh post post problems");
