@@ -73,6 +73,8 @@ export default (props: IPostImagePickerProps) => {
 				{
 					justifyContent: "center",
 					alignItems: "center",
+					borderBottomColor: colors.lightGrey,
+					borderBottomWidth: 1
 				},
 			]}
 		>

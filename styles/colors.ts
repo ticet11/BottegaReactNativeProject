@@ -3,5 +3,5 @@ export default {
 	dark: "#1f2125",
 	warning: "#ac262b",
 	highlight: "#eb523c",
-	lightGrey: "#eaeaea",
+	lightGrey: "#d4d4d4",
 };

@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import Button from "../utils/components/helpers/Button";
 import * as SecureStore from "expo-secure-store";
 
 import PostImagePicker from "../utils/components/posts/PostImagePicker";
+import Button from "../utils/components/helpers/Button";
 import api, { secureToken, urlPosts } from "../utils/api";
+import postFormStyles from "../styles/stacks/posts/postFormStyles";
+import { ScrollView } from "react-native-gesture-handler";
+const {
+	container,
+	formGrid,
+	textInputWrapper,
+	inputElement,
+	textAreaElement,
+	buttonWrapper,
+} = postFormStyles;
 
 interface IPostFormScreenProps {
 	navigation: {
 		navigate: (screenName: string, data: any) => void;
-	}
+	};
 }
 export default (props: IPostFormScreenProps) => {
 	const [name, setName] = useState("");
@@ -50,9 +60,11 @@ export default (props: IPostFormScreenProps) => {
 				console.log("res from new post", response.data);
 				setIsSubmitting(false);
 				if (response.data.memipedia_post) {
-					props.navigation.navigate("PostDetail", {post: response.data.memipedia_post})
+					props.navigation.navigate("PostDetail", {
+						post: response.data.memipedia_post,
+					});
 				} else {
-					alert("Post Creation Error")
+					alert("Post Creation Error");
 				}
 			})
 			.catch((error) => {
@@ -62,27 +74,33 @@ export default (props: IPostFormScreenProps) => {
 	};
 
 	return (
-		<View>
-			<TextInput
-				placeholder="Name"
-				value={name}
-				onChangeText={(val) => setName(val)}
-			></TextInput>
-
-			<TextInput
-				placeholder="Description"
-				value={content}
-				onChangeText={(val) => setContent(val)}
-				style={{ borderWidth: 2, borderColor: "black" }}
-				multiline
-			></TextInput>
-
-			<View style={{ marginTop: 40, height: 100 }}>
+		<ScrollView style={container}>
+			<View style={formGrid}>
 				<PostImagePicker setPostImage={setPostImage}></PostImagePicker>
-			</View>
+				<View style={textInputWrapper}>
+					<TextInput
+						placeholder="Name"
+						value={name}
+						onChangeText={(val) => setName(val)}
+						style={inputElement}
+					></TextInput>
 
-			{isSubmitting ? (<Button text="Submitting..." disabled></Button>) :
-			(<Button text="Submit" onPress={handleSubmit}></Button>)}
-		</View>
+					<TextInput
+						placeholder="Description"
+						value={content}
+						onChangeText={(val) => setContent(val)}
+						multiline
+						style={[inputElement, textAreaElement]}
+					></TextInput>
+				</View>
+			</View>
+			<View style={buttonWrapper}>
+				{isSubmitting ? (
+					<Button text="Submitting..." disabled></Button>
+				) : (
+					<Button text="Submit" onPress={handleSubmit}></Button>
+				)}
+			</View>
+		</ScrollView>
 	);
 };
