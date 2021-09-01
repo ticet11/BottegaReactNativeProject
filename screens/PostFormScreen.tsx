@@ -27,6 +27,13 @@ export default (props: IPostFormScreenProps) => {
 	const [postImage, setPostImage] = useState(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
+	const setBaseState = () => {
+		setName("");
+		setContent("");
+		setPostImage(null);
+		setIsSubmitting(false);
+	}
+
 	const buildForm = () => {
 		let formData = new FormData();
 
@@ -58,13 +65,14 @@ export default (props: IPostFormScreenProps) => {
 		})
 			.then((response) => {
 				console.log("res from new post", response.data);
-				setIsSubmitting(false);
 				if (response.data.memipedia_post) {
+					setBaseState();
 					props.navigation.navigate("PostDetail", {
 						post: response.data.memipedia_post,
 					});
 				} else {
 					alert("Post Creation Error");
+					setIsSubmitting(false);
 				}
 			})
 			.catch((error) => {
