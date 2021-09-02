@@ -8,6 +8,7 @@ export const secureToken = "memipedia_secure_token";
 export const urlPosts = "memipedia_posts";
 export const urlUsers = "memipedia_users";
 export const urlLoggedIn = "logged_in";
+export const urlQueries = "memipedia_queries";
 
 export default axios.create({
     baseURL: "https://brikozub.devcamp.space/memipedia/"
