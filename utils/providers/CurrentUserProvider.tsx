@@ -8,10 +8,7 @@ interface ICurrentUserProviderProps {
 }
 
 export default (props: ICurrentUserProviderProps) => {
-	const [currentUser, setCurrentUser] = useState({
-		id: 123,
-		email: "bradley@test.com",
-	});
+	const [currentUser, setCurrentUser] = useState({});
 
 	const getUser = async () => {
 		const token = await SecureStore.getItemAsync(secureToken);
@@ -22,7 +19,6 @@ export default (props: ICurrentUserProviderProps) => {
 			},
 		})
 			.then((response) => {
-				console.log("response from getUser", response.data);
 				if (response.data.memipedia_user) {
 					setCurrentUser(response.data.memipedia_user);
 				} else {
@@ -30,6 +26,7 @@ export default (props: ICurrentUserProviderProps) => {
 				}
 			})
 			.catch((error) => {
+				console.error("Error fetching that user: ", error)
 				setCurrentUser(null);
 			});
 	};

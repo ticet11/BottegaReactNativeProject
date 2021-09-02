@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import Button from "../utils/components/helpers/Button";
@@ -21,12 +21,9 @@ export default (props:IAccountScreenProps) => {
 	}
 
 	return (
-		<View>
-			<Text>Account Screen</Text>
-
-			<View style={{marginTop: 20}}>
+		<View style={{padding: 15}}>
 				<Button onPress={handleSignOut} text="Sign Out"></Button>
-			</View>
+			
 		</View>
 	);
 };

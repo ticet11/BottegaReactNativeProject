@@ -79,6 +79,7 @@ export default (props: IAuthScreenProps) => {
 			.catch((error) => {
 				setIsSubmitting(false);
 				alert("Try another e-mail or password?");
+				console.error("Error loggin in: ", error)
 			});
 	};
 
@@ -91,7 +92,6 @@ export default (props: IAuthScreenProps) => {
 		};
 		api.post(urlUsers, params)
 			.then((response) => {
-				console.log("Res for creating users", response.data);
 				if (response.data.memipedia_user) {
 					handleLogin();
 				} else {

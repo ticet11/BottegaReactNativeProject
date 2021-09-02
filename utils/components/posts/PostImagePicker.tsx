@@ -51,10 +51,8 @@ export default forwardRef((props: IPostImagePickerProps, ref) => {
 				setImage(result.uri);
 				props.setPostImage(result.uri);
 			}
-
-			console.log(result);
 		} catch (E) {
-			console.log(E);
+			console.error(E);
 		}
 	};
 

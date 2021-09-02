@@ -66,7 +66,6 @@ export default (props: IPostFormScreenProps) => {
 			},
 		})
 			.then((response) => {
-				console.log("res from new post", response.data);
 				if (response.data.memipedia_post) {
 					setBaseState();
 					props.navigation.navigate("PostDetail", {
