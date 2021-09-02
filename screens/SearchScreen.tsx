@@ -3,7 +3,6 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
-	ActivityIndicator,
 	Text,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
@@ -71,9 +70,7 @@ export default (props: ISearchScreenProps) => {
 	);
 
 	const queryRenderer = () => {
-		if (isLoading) {
-			return <ActivityIndicator />;
-		} else if (emptyQuery) {
+		if (emptyQuery) {
 			return (
 				<View
 					style={{
@@ -90,7 +87,12 @@ export default (props: ISearchScreenProps) => {
 			);
 		} else if (posts && posts.length > 0) {
 			return (
-				<PostList posts={posts} navigate={props.navigation.navigate} />
+				<PostList
+					getPosts={handleSearch}
+					isLoading={isLoading}
+					posts={posts}
+					navigate={props.navigation.navigate}
+				/>
 			);
 		} else {
 			return null;
