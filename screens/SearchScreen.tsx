@@ -4,6 +4,7 @@ import * as SecureStore from "expo-secure-store";
 
 import api, { secureToken, urlQueries } from "../utils/api";
 import Container from "../utils/components/layouts/Container";
+import PostList from "../utils/components/posts/PostList";
 
 interface ISearchScreenProps {
 	navigation: {
@@ -12,6 +13,7 @@ interface ISearchScreenProps {
 }
 export default (props: ISearchScreenProps) => {
 	const [query, setQuery] = useState("");
+	const [posts, setPosts] = useState([]);
 
 	const handleSearch = async () => {
 		const token = await SecureStore.getItemAsync(secureToken);
@@ -28,6 +30,7 @@ export default (props: ISearchScreenProps) => {
 		})
 			.then((res) => {
 				console.log("query response: ", res.data);
+				setPosts(res.data.memipedia_posts)
 			})
 			.catch((error) => {
 				console.error("query error: " + error);
@@ -51,8 +54,9 @@ export default (props: ISearchScreenProps) => {
 
 	return (
 		<Container navigate={props.navigation.navigate}>
-			<Text>SearchScreen</Text>
 			{searchBar}
+
+			<PostList posts={posts} navigate={props.navigation.navigate} />
 		</Container>
 	);
 };
