@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import api, { secureToken, urlQueries } from "../utils/api";
 import Container from "../utils/components/layouts/Container";
 import PostList from "../utils/components/posts/PostList";
+import searchStyles from "../styles/stacks/posts/searchStyles";
+const { formContainer, searchIcon, searchField } = searchStyles;
 
 interface ISearchScreenProps {
 	navigation: {
@@ -30,7 +33,7 @@ export default (props: ISearchScreenProps) => {
 		})
 			.then((res) => {
 				console.log("query response: ", res.data);
-				setPosts(res.data.memipedia_posts)
+				setPosts(res.data.memipedia_posts);
 			})
 			.catch((error) => {
 				console.error("query error: " + error);
@@ -38,16 +41,16 @@ export default (props: ISearchScreenProps) => {
 	};
 
 	const searchBar = (
-		<View>
+		<View style={formContainer}>
 			<TextInput
 				value={query}
 				onChangeText={(val) => setQuery(val)}
-				placeholderTextColor="white"
 				placeholder="Search Query"
 				onSubmitEditing={handleSearch}
+				style={searchField}
 			/>
-			<TouchableOpacity onPress={handleSearch} style={{ marginTop: 20 }}>
-				<Text style={{ color: "white" }}>Search</Text>
+			<TouchableOpacity onPress={handleSearch} style={searchIcon}>
+				<Ionicons name="md-search" color="white" size={30}></Ionicons>
 			</TouchableOpacity>
 		</View>
 	);
