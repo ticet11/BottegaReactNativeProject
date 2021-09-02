@@ -1,18 +1,24 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { TouchableOpacity, Image, View } from "react-native";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import { TouchableOpacity, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+
 import colors from "../../../styles/colors";
-import { color } from "react-native-reanimated";
 
 interface IPostImagePickerProps {
 	setPostImage: (arg: any) => void;
 }
-export default (props: IPostImagePickerProps) => {
+export default forwardRef((props: IPostImagePickerProps, ref) => {
 	const [image, setImage] = useState(null);
+
+	useImperativeHandle(ref, () => ({
+		clearImage() {
+			setImage(null);
+		},
+	}));
 
 	useEffect(() => {
 		const ac = new AbortController();
@@ -59,11 +65,11 @@ export default (props: IPostImagePickerProps) => {
 
 	const contentRenderMachine = () => {
 		if (image) {
-			return <Image source={{uri: image}} style={size} />;
+			return <Image source={{ uri: image }} style={size} />;
 		} else {
-			return <EvilIcons name="camera" color={colors.primary} size={42} />
+			return <EvilIcons name="camera" color={colors.primary} size={42} />;
 		}
-	}
+	};
 
 	return (
 		<TouchableOpacity
@@ -74,11 +80,11 @@ export default (props: IPostImagePickerProps) => {
 					justifyContent: "center",
 					alignItems: "center",
 					borderBottomColor: colors.lightGrey,
-					borderBottomWidth: 1
+					borderBottomWidth: 1,
 				},
 			]}
 		>
 			{contentRenderMachine()}
 		</TouchableOpacity>
 	);
-};
+});

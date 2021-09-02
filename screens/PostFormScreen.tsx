@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import React, { useState, useRef } from "react";
+import { TextInput, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import PostImagePicker from "../utils/components/posts/PostImagePicker";
@@ -22,12 +22,14 @@ interface IPostFormScreenProps {
 	};
 }
 export default (props: IPostFormScreenProps) => {
+	const imagePickerRef: any = useRef();
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const setBaseState = () => {
+		imagePickerRef.current.clearImage();
 		setName("");
 		setContent("");
 		setPostImage(null);
@@ -84,7 +86,7 @@ export default (props: IPostFormScreenProps) => {
 	return (
 		<ScrollView style={container}>
 			<View style={formGrid}>
-				<PostImagePicker setPostImage={setPostImage}></PostImagePicker>
+				<PostImagePicker ref={imagePickerRef} setPostImage={setPostImage}></PostImagePicker>
 				<View style={textInputWrapper}>
 					<TextInput
 						placeholder="Name"
